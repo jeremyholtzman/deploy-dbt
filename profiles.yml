@@ -29,3 +29,17 @@ deploy_dbt_course:
       schema: ANALYTICS
       threads: 4
       client_session_keep_alive: False
+    ci:
+      type: snowflake
+      account: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_ACCOUNT_ID') }}"
+
+      # User/password auth
+      user: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_USERNAME') }}"
+      password: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_PASSWORD') }}"
+
+      role: TRANSFORMER
+      database: ANALYTICS
+      warehouse: TRANSFORMING
+      schema: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_SCHEMA') }}"
+      threads: 4
+      client_session_keep_alive: False
