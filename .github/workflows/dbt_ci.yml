@@ -12,11 +12,11 @@ jobs:
     name: dbt_ci
     runs-on: ubuntu-latest
 
-		env:
-	      DBT_PROFILES_DIR: ./
-	      DEPLOY_DBT_COURSE_SNOWFLAKE_ACCOUNT_ID: ${{ secrets.DEPLOY_DBT_COURSE_SNOWFLAKE_ACCOUNT_ID }}
-	      DEPLOY_DBT_COURSE_SNOWFLAKE_USERNAME: ${{ secrets.DEPLOY_DBT_COURSE_SNOWFLAKE_USERNAME }}
-	      DEPLOY_DBT_COURSE_SNOWFLAKE_PASSWORD: ${{ secrets.DEPLOY_DBT_COURSE_SNOWFLAKE_PASSWORD }}
+    env:
+      DBT_PROFILES_DIR: ./
+      DEPLOY_DBT_COURSE_SNOWFLAKE_ACCOUNT_ID: ${{ secrets.DEPLOY_DBT_COURSE_SNOWFLAKE_ACCOUNT_ID }}
+      DEPLOY_DBT_COURSE_SNOWFLAKE_USERNAME: ${{ secrets.DEPLOY_DBT_COURSE_SNOWFLAKE_USERNAME }}
+      DEPLOY_DBT_COURSE_SNOWFLAKE_PASSWORD: ${{ secrets.DEPLOY_DBT_COURSE_SNOWFLAKE_PASSWORD }}
 
     steps:
     - name: Checkout repo
@@ -27,10 +27,10 @@ jobs:
       with:
         python-version: '3.8'
 
-		- name: Download manifest.json
-		  uses: actions/download-artifact@v2
-		  with:
-		    name: dbt-manifest
+    - name: Download manifest.json
+      uses: actions/download-artifact@v2
+      with:
+        name: dbt-manifest
 
     - name: Find Current Pull Request
       uses: jwalton/gh-find-current-pr@v1.3.0
