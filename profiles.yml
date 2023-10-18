@@ -1,0 +1,31 @@
+deploy_dbt_course:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_ACCOUNT_ID') }}"
+
+      # User/password auth
+      user: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_USERNAME') }}"
+      password: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_PASSWORD') }}"
+
+      role: TRANSFORMER
+      database: ANALYTICS
+      warehouse: TRANSFORMING
+      schema: DBT_JHOLTZMAN
+      threads: 4
+      client_session_keep_alive: False
+    prod:
+      type: snowflake
+      account: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_ACCOUNT_ID') }}"
+
+      # User/password auth
+      user: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_USERNAME') }}"
+      password: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_PASSWORD') }}"
+
+      role: TRANSFORMER
+      database: ANALYTICS
+      warehouse: TRANSFORMING
+      schema: ANALYTICS
+      threads: 4
+      client_session_keep_alive: False
