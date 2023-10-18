@@ -1,7 +1,9 @@
 name: dbt_production_daily
 
-on: workflow_dispatch
-
+on:
+  schedule:
+    - cron: 0 7 * * *
+    
 jobs:
   dbt_production_daily:
     name: dbt_production_daily
