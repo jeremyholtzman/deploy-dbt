@@ -12,7 +12,7 @@ deploy_dbt_course:
       role: TRANSFORMER
       database: ANALYTICS
       warehouse: TRANSFORMING
-      schema: DBT_JHOLTZMAN
+      schema: "{{ env_var('DEPLOY_DBT_COURSE_SNOWFLAKE_SCHEMA') }}"
       threads: 4
       client_session_keep_alive: False
     prod:
