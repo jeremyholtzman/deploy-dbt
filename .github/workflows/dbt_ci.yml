@@ -27,14 +27,14 @@ jobs:
       with:
         python-version: '3.8'
 
-		- name: Download manifest
+    - name: Download manifest
       uses: dawidd6/action-download-artifact@v2
-			id: download-artifact
-			with:
-				workflow: dbt_production_daily.yml
-				workflow_conclusion: success
-				branch: main
-				name: dbt-manifest
+      id: download-artifact
+      with:
+	workflow: dbt_production_daily.yml
+ 	workflow_conclusion: success
+	branch: main
+	name: dbt-manifest
 
     - name: Find Current Pull Request
       uses: jwalton/gh-find-current-pr@v1.3.0
