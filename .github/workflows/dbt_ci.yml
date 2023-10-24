@@ -1,0 +1,53 @@
+name: dbt_ci
+
+on:
+  pull_request:
+    types:
+    - opened
+    - reopened
+    - synchronize
+
+jobs:
+  dbt_ci:
+    name: dbt_ci
+    runs-on: ubuntu-latest
+
+    env:
+      DBT_PROFILES_DIR: ./
+      DEPLOY_DBT_COURSE_SNOWFLAKE_ACCOUNT_ID: ${{ secrets.DEPLOY_DBT_COURSE_SNOWFLAKE_ACCOUNT_ID }}
+      DEPLOY_DBT_COURSE_SNOWFLAKE_USERNAME: ${{ secrets.DEPLOY_DBT_COURSE_SNOWFLAKE_USERNAME }}
+      DEPLOY_DBT_COURSE_SNOWFLAKE_PASSWORD: ${{ secrets.DEPLOY_DBT_COURSE_SNOWFLAKE_PASSWORD }}
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Download manifest
+      uses: dawidd6/action-download-artifact@v2
+      id: download-artifact
+      with:
+        workflow: dbt_production_daily.yml
+        workflow_conclusion: success
+        branch: main
+        name: dbt-manifest
+
+    - name: Find Current Pull Request
+      uses: jwalton/gh-find-current-pr@v1.3.0
+      id: findPR
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install dbt-snowflake==1.6.0
+        dbt deps --target ci
+
+    - name: Slim dbt run
+      run: |
+        dbt run --select state:modified+ --defer --state ./ --target ci
+      env:
+        DEPLOY_DBT_COURSE_SNOWFLAKE_SCHEMA: "${{ format('{0}_{1}', 'dbt_ci_pr', steps.findPr.outputs.pr) }}"
