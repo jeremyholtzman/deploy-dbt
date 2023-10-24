@@ -34,9 +34,3 @@ jobs:
     - name: Run all models
       run: |
         dbt run --target prod
-
-    - name: Upload manifest.json
-      uses: actions/upload-artifact@v2
-      with:
-        name: dbt-manifest
-        path: target/manifest.json
