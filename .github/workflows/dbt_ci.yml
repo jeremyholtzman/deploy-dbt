@@ -31,7 +31,6 @@ jobs:
       uses: dawidd6/action-download-artifact@v2
       id: download-artifact
       with:
-        workflow: dbt_production_daily.yml
         workflow_conclusion: success
         branch: main
         name: dbt-manifest
@@ -49,6 +48,6 @@ jobs:
 
     - name: Slim dbt run
       run: |
-        dbt run --select state:modified+ --defer --state ./dbt-manifest/ --profiles-dir ./ --target ci
+        dbt run --select state:modified+ --defer --state ./ --profiles-dir ./ --target ci
       env:
         DEPLOY_DBT_COURSE_SNOWFLAKE_SCHEMA: "${{ format('{0}_{1}', 'dbt_ci_pr', steps.findPr.outputs.pr) }}"
