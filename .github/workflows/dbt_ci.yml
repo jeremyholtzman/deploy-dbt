@@ -46,8 +46,8 @@ jobs:
         pip install dbt-snowflake==1.6.0
         dbt deps --target ci
 
-    - name: Slim dbt run
+    - name: Slim dbt build
       run: |
-        dbt run --select state:modified+ --defer --state ./ --target ci
+        dbt build --select state:modified+ --defer --state ./ --target ci
       env:
         DEPLOY_DBT_COURSE_SNOWFLAKE_SCHEMA: "${{ format('{0}_{1}', 'dbt_ci_pr', steps.findPr.outputs.pr) }}"
